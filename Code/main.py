@@ -66,7 +66,7 @@ def move_txt_temp_file(source_file, file_name):
     source_file = source_file
 
     # Đường dẫn đến thư mục đích
-    destination_directory = r"C:\Users\autnp\Desktop\Sticker Image\temp_data"
+    destination_directory = resource_path("Sticker Image\\temp_data")
 
     # Kiểm tra xem tệp nguồn tồn tại
     if os.path.exists(source_file):
@@ -86,7 +86,7 @@ def move_csv_temp_file(file):
     source_file = resource_path(f"temp_data\\{file}")
 
     # Đường dẫn đến thư mục đích
-    destination_directory =  r"C:\Users\autnp\Desktop\Sticker Image\temp_data"
+    destination_directory = resource_path("Sticker Image\\temp_data")
 
     # Kiểm tra xem tệp nguồn tồn tại
     if os.path.exists(source_file):
