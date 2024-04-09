@@ -14,6 +14,11 @@ temp_used_data_4 = resource_path("use_data\\temp_sentence_used_4.txt")
 temp_used_data_4_change = resource_path("use_data\\temp_sentence_used_4_change.txt")
 
 
+upload_shopify = resource_path("temp_data\\upload_shopify.csv")
+
+
+
+
 import shutil
 import os
 
@@ -100,6 +105,16 @@ def move_csv_temp_file(file):
         # Di chuyển tệp từ nguồn sang đích
         shutil.move(source_file, destination_file)
 
+def write_lists_to_csv(sku_list, product_name_list, output_file):
+    with open(output_file, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        # Ghi tiêu đề của cột
+        writer.writerow(['SKU', 'Product Name'])
+        # Ghi dữ liệu từ hai list vào file CSV
+        for sku, product_name in zip(sku_list, product_name_list):
+            writer.writerow([sku, product_name])
+
+
 def create_csv_to_photo():
 
     sku_list = []
@@ -123,6 +138,7 @@ def create_csv_to_photo():
             sku_list.append(sku)
             product_name_list.append(product_name)
 
+    write_lists_to_csv(sku_list, product_name_list, upload_shopify)
 
     if os.path.exists(name_size_2):
         move_csv_temp_file("NameSize_2.csv")
@@ -132,6 +148,10 @@ def create_csv_to_photo():
 
     if os.path.exists(name_size_3):
         move_csv_temp_file("NameSize_3.csv")
+
+    if os.path.exists(upload_shopify):
+        move_csv_temp_file("upload_shopify.csv")
+
 
     if os.path.exists(name_size_4):
         move_csv_temp_file("NameSize_4.csv")
@@ -166,5 +186,6 @@ def create_csv_to_photo():
 
 if __name__ == "__main__":
     sku_list, product_name_list = create_csv_to_photo()
+
     print(sku_list)
     print(product_name_list)

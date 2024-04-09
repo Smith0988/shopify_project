@@ -19,7 +19,7 @@ def split_sentence_2_3_and_3_3(text):
         result_1 = result_1.strip()
         result_2 = result_2.strip()
         split = [result_1, result_2]
-        product_name = "2Pcs - 5IN " + sentence + " Bumper Sticker" + " - " + sentence + " Sticker"
+        product_name = "6Pcs(5IN) " + text + " Bumper Sticker" + ", Vinyl Decal Waterproof, Stickers for Car, Truck, Vehicl, laptop"
 
     else:
         words = sentence.split()
@@ -44,7 +44,7 @@ def split_sentence_2_3_and_3_3(text):
         result_3 = result_3.strip()
 
         split = [result_1, result_2, result_3]
-        product_name = "2Pcs - 5IN " + sentence + " Bumper Sticker" + " - " + sentence + " Sticker"
+        product_name = "6Pcs(5IN) " + text + " Bumper Sticker" + ", Vinyl Decal Waterproof, Stickers for Car, Truck, Vehicl, laptop"
 
     split = [item.upper() for item in split]
 

@@ -30,7 +30,6 @@ temp_used_data_4 = resource_path("use_data\\temp_sentence_used_4.txt")
 temp_used_data_4_change = resource_path("use_data\\temp_sentence_used_4_change.txt")
 
 
-
 def write_sentence_to_file(filename, sentence):
     try:
         with open(filename, 'a') as file:
@@ -44,6 +43,8 @@ def create_name_size_2():
     with open(name_size_2, mode='a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         writer.writerow(list_2)
+
+
 
 
 def create_name_size_2_change():

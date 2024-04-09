@@ -1,4 +1,5 @@
 import csv
+import time
 from datetime import datetime
 import pyautogui
 import pyperclip
@@ -11,9 +12,48 @@ from selenium.webdriver.support import expected_conditions as EC
 from write_data_to_excel import *
 
 
+def sign_in():
+    driver = webdriver.Chrome()
+    driver.get("https://accounts.shopify.com/lookup?rid=7ed6e7f2-ab94-479c-8ad2-a7e4ca6a6e73&verify=1712633039-iJAGEwGBUqxtGXvR4QKVRXZpXDF6pveqyzKQJ3YK%2FRA%3Dhttps://accounts.shopify.com/lookup?rid=7ed6e7f2-ab94-479c-8ad2-a7e4ca6a6e73&verify=1712633039-iJAGEwGBUqxtGXvR4QKVRXZpXDF6pveqyzKQJ3YK%2FRA%3D")
+    time.sleep(90)
+    return driver
+
+
+    """
+    # Chờ cho trường văn bản xuất hiện (trong ví dụ này sử dụng Xpath)
+    email_field = WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, "//input[@id='account_email']")))
+    email_field.send_keys("utester.9001@gmail.com")
+
+    pyautogui.sleep(5)
+    pyautogui.press("enter")
+
+
+    password_field = WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, "//input[@id='account_password']")))
+    password_field.send_keys("Toikhongbiet89!")
+
+    pyautogui.sleep(3)
+    pyautogui.press("enter")
+    """
+
+def add_product(driver):
+
+    wait = WebDriverWait(driver, 60)
+    product_button = wait.until(EC.presence_of_element_located((By.XPATH, "//span[@class='Polaris-Text--root Polaris-Text--bodyMd Polaris-Text--semibold']")))
+    product_button.click()
+    pyautogui.sleep(1)
+
+
+    wait = WebDriverWait(driver, 60)
+    add_product_button = wait.until(EC.presence_of_element_located((By.XPATH, "//span[normalize-space()='Add product']")))
+    add_product_button.click()
+    pyautogui.sleep(1)
+
+
+
 def upload_image_to_postimage_folder():
     driver = webdriver.Chrome()
-    driver.get("https://postimages.org")
+    driver.get("https://accounts.shopify.com/lookup?rid=7ed6e7f2-ab94-479c-8ad2-a7e4ca6a6e73&verify=1712633039-iJAGEwGBUqxtGXvR4QKVRXZpXDF6pveqyzKQJ3YK%2FRA%3Dhttps://accounts.shopify.com/lookup?rid=7ed6e7f2-ab94-479c-8ad2-a7e4ca6a6e73&verify=1712633039-iJAGEwGBUqxtGXvR4QKVRXZpXDF6pveqyzKQJ3YK%2FRA%3D")
+
 
     wait = WebDriverWait(driver, 60)
     upload_button = wait.until(EC.presence_of_element_located((By.XPATH, "//select[@id='expire']")))
@@ -139,8 +179,6 @@ def upload_process_folder():
     delete_folder_data()
 
 
-
-
 def create_sku_code_1():
     now = datetime.now()
     day = now.day
@@ -162,17 +200,12 @@ def create_sku_code_1():
 
 def create_folder_and_copy_data():
     fd_name = create_sku_code_1()
-    base_directory = r"C:\Users\autnp\Desktop\Sticker Image\image_base"
-    new_folder_name = fd_name
 
-    new_folder_path = os.path.join(base_directory, new_folder_name)
-    if not os.path.exists(new_folder_path):
-        os.mkdir(new_folder_path)
+    source_directory = resource_path("Sticker Image")
 
-    source_directory = r"C:\Users\autnp\Desktop\Sticker Image"
-
-    destination_directory = f"C:\\Users\\autnp\\Desktop\\Sticker Image\\image_base\\{fd_name}"
-    folders_to_copy = ["1. PSD", "2. Main", "3. ULR1", "4. ULR2", "5. PNG", "temp_data"]
+    temp_folder = f"Image_base\\{fd_name}"
+    destination_directory = resource_path(temp_folder)
+    folders_to_copy = ["1. PSD", "2. Image_1", "3. Image_2", "4. Image_3", "5. Image_4", "6. Image_5", "8. PNG", "temp_data"]
 
     for folder in folders_to_copy:
         source_path = os.path.join(source_directory, folder)
@@ -182,8 +215,8 @@ def create_folder_and_copy_data():
 
 
 def delete_folder_data():
-    source_directory = r"C:\Users\autnp\Desktop\Sticker Image"
-    folders_to_clear = ["1. PSD", "2. Main", "3. ULR1", "4. ULR2", "5. PNG", "temp_data"]
+    source_directory = resource_path("Sticker Image")
+    folders_to_clear = ["1. PSD", "2. Image_1", "3. Image_2", "4. Image_3", "5. Image_4", "6. Image_5", "8. PNG", "temp_data"]
     for folder in folders_to_clear:
         folder_path = os.path.join(source_directory, folder)
 
@@ -357,6 +390,14 @@ def upload_process():
 
 
 
+
 if __name__ == "__main__":
-    upload_process()
+
+    create_folder_and_copy_data()
+    delete_folder_data()
+
+
+    #driver = sign_in()
+    #add_product(driver)
+    #upload_process()
     #move_temp_excel_form()
