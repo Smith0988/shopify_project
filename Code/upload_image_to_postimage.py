@@ -12,42 +12,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from write_data_to_excel import *
 
 
-def sign_in():
-    driver = webdriver.Chrome()
-    driver.get("https://accounts.shopify.com/lookup?rid=7ed6e7f2-ab94-479c-8ad2-a7e4ca6a6e73&verify=1712633039-iJAGEwGBUqxtGXvR4QKVRXZpXDF6pveqyzKQJ3YK%2FRA%3Dhttps://accounts.shopify.com/lookup?rid=7ed6e7f2-ab94-479c-8ad2-a7e4ca6a6e73&verify=1712633039-iJAGEwGBUqxtGXvR4QKVRXZpXDF6pveqyzKQJ3YK%2FRA%3D")
-    time.sleep(90)
-    return driver
-
-
-    """
-    # Chờ cho trường văn bản xuất hiện (trong ví dụ này sử dụng Xpath)
-    email_field = WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, "//input[@id='account_email']")))
-    email_field.send_keys("utester.9001@gmail.com")
-
-    pyautogui.sleep(5)
-    pyautogui.press("enter")
-
-
-    password_field = WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.XPATH, "//input[@id='account_password']")))
-    password_field.send_keys("Toikhongbiet89!")
-
-    pyautogui.sleep(3)
-    pyautogui.press("enter")
-    """
-
-def add_product(driver):
-
-    wait = WebDriverWait(driver, 60)
-    product_button = wait.until(EC.presence_of_element_located((By.XPATH, "//span[@class='Polaris-Text--root Polaris-Text--bodyMd Polaris-Text--semibold']")))
-    product_button.click()
-    pyautogui.sleep(1)
-
-
-    wait = WebDriverWait(driver, 60)
-    add_product_button = wait.until(EC.presence_of_element_located((By.XPATH, "//span[normalize-space()='Add product']")))
-    add_product_button.click()
-    pyautogui.sleep(1)
-
 
 
 def upload_image_to_postimage_folder():
