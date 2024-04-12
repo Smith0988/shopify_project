@@ -11,7 +11,15 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from write_data_to_excel import *
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
 
+    return os.path.join(base_path, relative_path)
 
 
 def upload_image_to_postimage_folder():
@@ -169,7 +177,7 @@ def create_folder_and_copy_data():
 
     temp_folder = f"Image_base\\{fd_name}"
     destination_directory = resource_path(temp_folder)
-    folders_to_copy = ["1. PSD", "2. Image_1", "3. Image_2", "4. Image_3", "5. Image_4", "6. Image_5", "8. PNG", "temp_data"]
+    folders_to_copy = ["1. PSD", "2. Image_1", "3. Image_2", "4. Image_3", "5. PNG", "temp_data"]
 
     for folder in folders_to_copy:
         source_path = os.path.join(source_directory, folder)
@@ -180,7 +188,7 @@ def create_folder_and_copy_data():
 
 def delete_folder_data():
     source_directory = resource_path("Sticker Image")
-    folders_to_clear = ["1. PSD", "2. Image_1", "3. Image_2", "4. Image_3", "5. Image_4", "6. Image_5", "8. PNG", "temp_data"]
+    folders_to_clear = ["1. PSD", "2. Image_1", "3. Image_2", "4. Image_3", "5. PNG", "temp_data"]
     for folder in folders_to_clear:
         folder_path = os.path.join(source_directory, folder)
 
@@ -200,15 +208,25 @@ def delete_folder_data():
 
 
 def read_csv_file(file_name):
-    csv_file = f"C:\\Users\\autnp\\Desktop\\Sticker Image\\temp_data\\{file_name}"
+    temp_folder = f"Sticker Image\\temp_data\\{file_name}"
+    csv_file = resource_path(temp_folder)
     list_1 = []
+
     with open(csv_file, newline='', encoding='utf-8') as file:
         csv_reader = csv.reader(file)
         for row in csv_reader:
             list_1.append(row[0])
     if list_1:
         list_1 = list_1[1:]  # Tạo danh sách mới bằng cách bỏ qua phần tử đầu tiên
-    return list_1
+
+
+    ten_file = resource_path("Sticker Image\\temp_data\\temp_sentence_used_2.txt")
+    with open(ten_file, 'r', encoding='utf-8') as file:
+        lines = [line.strip() for line in file.readlines()]
+
+    return list_1, lines
+
+
 
 
 def read_csv_file_folder(file_name):
@@ -220,16 +238,30 @@ def read_csv_file_folder(file_name):
             list_1.append(row[0])
     if list_1:
         list_1 = list_1[1:]  # Tạo danh sách mới bằng cách bỏ qua phần tử đầu tiên
-    return list_1
+
+    ten_file= resource_path("Sticker Image\\temp_data\\temp_sentence_used_2.txt")
+    with open(ten_file, 'r', encoding='utf-8') as file:
+        lines = [line.strip() for line in file.readlines()]
+
+
+
+
+    return list_1, lines
 
 
 def upload_image_to_postimage(sku_name, type):
-    if type == "main":
-        link_image = f"C:\\Users\\autnp\\Desktop\\Sticker Image\\2. Main\\{sku_name} copy.jpg"
-    elif type == "url_1":
-        link_image = f"C:\\Users\\autnp\\Desktop\\Sticker Image\\3. ULR1\\{sku_name} copy.jpg"
-    elif type == "url_2":
-        link_image = f"C:\\Users\\autnp\\Desktop\\Sticker Image\\4. ULR2\\{sku_name} copy.jpg"
+    if type == "Image_1":
+        temp_folder = f"Sticker Image\\2. Image_1\\{sku_name} copy.jpg"
+        link_image = resource_path(temp_folder)
+        #link_image = f"C:\\Users\\autnp\\Desktop\\Sticker Image\\2. Image_1\\{sku_name} copy.jpg"
+    elif type == "Image_2":
+        temp_folder = f"Sticker Image\\3. Image_2\\{sku_name} copy.jpg"
+        link_image = resource_path(temp_folder)
+        #link_image = f"C:\\Users\\autnp\\Desktop\\Sticker Image\\3. Image_2\\{sku_name} copy.jpg"
+    elif type == "Image_3":
+        temp_folder = f"Sticker Image\\4. Image_3\\{sku_name} copy.jpg"
+        link_image = resource_path(temp_folder)
+        #link_image = f"C:\\Users\\autnp\\Desktop\\Sticker Image\\4. Image_3\\{sku_name} copy.jpg"
 
     driver = webdriver.Chrome()
     driver.get("https://postimages.org")
@@ -273,9 +305,6 @@ def upload_image_to_postimage(sku_name, type):
     pyautogui.sleep(2)
 
 
-
-
-
     copied_text = pyperclip.paste()
     pyautogui.sleep(2)
     driver.quit()
@@ -304,10 +333,10 @@ def copy_Bumper_file():
 
 def move_temp_excel_form():
     # Đường dẫn đến tệp cần di chuyển
-    source_file = r"C:\Users\autnp\Desktop\local code\temp_form.xlsx"
+    source_file = "temp_form.xlsx"
 
     # Đường dẫn đến thư mục đích
-    destination_directory = r"C:\Users\autnp\Desktop\Sticker Image\temp_data"
+    destination_directory = resource_path("Sticker Image\\temp_data")
 
     # Kiểm tra xem tệp nguồn tồn tại
     if os.path.exists(source_file):
@@ -331,37 +360,23 @@ def upload_process():
     name_size_4 = "NameSize_4.csv"
     name_size_4_change = "NameSize_4_change.csv"
 
-
-
-
-
-    sku_list = read_csv_file(name_size_2)
+    i = 0
+    sku_list, sentence_list = read_csv_file(name_size_2)
 
     for sku in sku_list:
-        sku_temp_main = upload_image_to_postimage(sku, "main")
-        sku_temp_url_1 = upload_image_to_postimage(sku, "url_1")
-        sku_temp_url_2 = upload_image_to_postimage(sku, "url_2")
+        sentence = "6pcs(5IN) " + sentence_list[i] + " Bumper Sticker"
+        sku_temp_main = upload_image_to_postimage(sku, "Image_1")
+        sku_temp_url_1 = upload_image_to_postimage(sku, "Image_2")
+        sku_temp_url_2 = upload_image_to_postimage(sku, "Image_3")
         prefix = sku.split('_')[:2]
-        result = '_'.join(prefix)
-        data_to_write = [result, sku_temp_main, sku_temp_url_1, sku_temp_url_2]
-        write_to_excel(data_to_write)
-
-    copy_Bumper_file()
+        SKU = '_'.join(prefix)
+        conver_link_to_list(SKU, sku_temp_main, sku_temp_url_1, sku_temp_url_2, sentence)
+        i = i + 1
     move_temp_excel_form()
     create_folder_and_copy_data()
     delete_folder_data()
 
-
-
-
-
 if __name__ == "__main__":
 
-    create_folder_and_copy_data()
-    delete_folder_data()
-
-
-    #driver = sign_in()
-    #add_product(driver)
-    #upload_process()
+    upload_process()
     #move_temp_excel_form()

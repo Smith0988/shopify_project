@@ -138,7 +138,7 @@ def create_csv_to_photo():
             sku_list.append(sku)
             product_name_list.append(product_name)
 
-    write_lists_to_csv(sku_list, product_name_list, upload_shopify)
+    #write_lists_to_csv(sku_list, product_name_list, upload_shopify)
 
     if os.path.exists(name_size_2):
         move_csv_temp_file("NameSize_2.csv")
