@@ -126,7 +126,7 @@ def create_csv_to_photo():
         i = 1
         for text in list_text:
             i = i + 1
-            if i == 50:
+            if i == 205:
                 break
             write_sentence_to_file(used_data, text)
             #write_sentence_to_file(temp_used_data, text)
